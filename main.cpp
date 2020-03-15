@@ -15,6 +15,7 @@ public:
 Calculator::Calculator() {}
 Calculator::~Calculator() {}
 double Calculator::sum(double x, double y) {
+    //sum two numbers
     return x+y;
 }
 double Calculator::subtract(double x, double y) {
