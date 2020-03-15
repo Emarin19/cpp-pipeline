@@ -19,6 +19,7 @@ double Calculator::sum(double x, double y) {
     return x+y;
 }
 double Calculator::subtract(double x, double y) {
+    //subtract two number
     return x-y;
 }
 double Calculator::divide(double x, double y) {
