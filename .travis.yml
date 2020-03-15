@@ -1,5 +1,5 @@
 dist: trusty
-#sudo: false
+sudo: false
 language: cpp
 
 addons:
@@ -8,21 +8,26 @@ addons:
     token:
       secure: "gNz9VChIgybqrp+UgoWBkIOlZsdsYOQR5zh9QHC5FZAT+4GyejZyR+AbVXdOvLgcWhwrKzpLcuGhqARBSCwajx93OZ9xD6PLLtIlupMHMfv1k9z1eoOMn1ahJ2QCTTAsaFz+Wa92jMEHG3GgVD+vxhveRFvf/T1/ZfjbvyEMBfQLgNkeuCaX7hJeZ/iB+gnxs12OHxMDeOT19auz0h3LICzHe7tBTM+8ZgPW5xwh8OKekMup70bfHVVjYUY23ZVe2YYEWQdVQ5Kv0Hrhpyp8EZiErWAI51SoEkNrUSjz9fCN27DBYO1Aqnpf9aTtdwMVNFMh7Onu21ULarkCIFx/fMOcOBE2TNjUF9RB05Ugw2lX7ZKwaTyIxsbwVJqXDlNXiIhow4PkhlBnWrU528OF9/RKly1PMixXS/7nJxQZsxlRz4nlzdlai8B6NBpKYTiDBrvu9yZwPXmJgC2zJeMdMsw72K3PpWgOkdTlhvSxJfqWygmwOc/bzn8yw6RhG+/8LD+daMfviyWd91MCnrJiHUkpEZ+26LoAJnDwS/AkOIxo+DEDMYGI+tDgb/Eb0WBvByshLbyTe0LFlyYf/0dlVRyNucs4TLH0Va2Oi6WJkLGhEEqaxFLGfHSfpYsyNWptE/y1OciJr1qzWmyX1NwjefUbTJxXfUDgEu+7wuTWqxg="
 
-  #apt:
-    #sources:
-      #- ubuntu-toolchain-r-test
-    #packages:
-      #- g++-5
+  apt:
+    sources:
+      - george-edison55-precise-backports
+    packages:
+      - cmake-data
+      - cmake
 
 script:
-  - rm -f build bw-output && mkdir build && cd build && cmake ..
+  # Prepare the build system
+  - mkdir build
+  - cd build
+  - cmake ..
+  - cd ..
+  # Wraps the compilation with the Build Wrapper to generate configuration (used
+  # later by the SonarQube Scanner) into the "bw-output" folder
   - build-wrapper-linux-x86-64 --out-dir bw-output cmake --build build/
-  #- build-wrapper-linux-x86-64 --out-dir ../bw-output make all && cd ..
-  - sonar-scanner -Dsonar.cfamily.build-wrapper-output=bw-output
+  # And finally run the SonarQube analysis - read the "sonar-project.properties"
+  # file to see the specific configuration
+  - sonar-scanner
 
-  #- CXX=/usr/bin/g++-5 CC=/usr/bin/gcc-5 cmake .
-  #- cmake --build . -- -j2
-  #- build-wrapper-linux-x86-64 --out-dir ../bw-output make all && cd ..
-  #- rm -f build bw-output && mkdir build && cd build && cmake ..
-  #- sonar-scanner -Dsonar.cfamily.build-wrapper-output=bw-output
-
+cache:
+  directories:
+    - '$HOME/.sonar/cache'

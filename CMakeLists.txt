@@ -1,7 +1,6 @@
-cmake_minimum_required(VERSION 3.9)
-project(sonar_cloud_example)
+cmake_minimum_required(VERSION 3.2)
+project(sonar_scanner_example)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 14)
 
 add_executable(sonar_scanner_example main.cpp)
