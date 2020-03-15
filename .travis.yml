@@ -1,7 +1,13 @@
-
+dist: trusty
+sudo: false
 language: c++
 
 addons:
+  sonarcloud:
+    organization: "emarin19"
+    token:
+      secure: "fVAwS5THNOzDOVvqBLB7QAJLr5WTVi4YgIa4nHGMR4NfpuEviOSJDLTi6T03wD9H3Id1RhBBeaADcg+bay1d256YWY1eR2NcIKPiTFX77P5djamz7/6UivTYyo3j+SsE1tct2wtOl643VmyZFtNro9KyUz3iPsPW+zpd128F4I1aKqc/adPooiF5K2AKovHaLPbrlgvQbKrJw2wqMadTYF4savhFt30KKQe6+YoUUUgCoXLQtAKT4tXCGJxganBaUtcByLgvOHWeDiA2r3qtw0Neo5RVolDhFxkccJwuyDG+q4pKNBE/RfxkmzeWv74ZWx67XAhdUnTqzMuLId9wo2PpgiGL3ntwHpcqXOPg0FMHLlH3YmXcE5eFdNXkeW0ckLT7AsWMO/Hr4emfooJ46WLb9EL8kmxbrfN1GIypONg1vSyYDCS7ZyLuy6Bkik99By9JkAYgMzLnZiZszM41nOR5s0m5R0s1+owZD/C+rzSTn1/qBuHW01RN68fx3FsuyK7u/OrIHC91tIiwOLny1sDCkUR+yFaEzj6S4aG8Um+FeWgnqBl5K6RSrc0Nxpv+Z4q/rbbbeN9wSJ6ChQemuT3iy5MkWI/N53Z3ASkye7ttNsp1NiBtHrjDwdnTl0JphkEPLcyhwNrkgJr/qkUU4/ggHAqOHtYIQ2cQoUOHuas="
+
   apt:
     sources:
       - ubuntu-toolchain-r-test
@@ -11,3 +17,13 @@ addons:
 script:
   - CXX=/usr/bin/g++-5 CC=/usr/bin/gcc-5 cmake .
   - cmake --build . -- -j2
+  - mkdir build
+  - cd build
+  - cmake ..
+  - cd ..
+  - build-wrapper-linux-x86-64 --out-dir bw-output cmake --build build/
+  - sonar-scanner
+
+cache:
+  directories:
+    - '$HOME/.sonar/cache'
