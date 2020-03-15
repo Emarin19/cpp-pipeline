@@ -18,6 +18,5 @@ script:
   - CXX=/usr/bin/g++-5 CC=/usr/bin/gcc-5 cmake .
   - cmake --build . -- -j2
   - rm -f build bw-output && mkdir build && cd build && cmake ..
-  - sonar-scanner -Dsonar.cfamily.build-wrapper-output=bw-output
-
+  - sonar-scanner
 
