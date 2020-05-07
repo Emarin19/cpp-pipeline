@@ -16,6 +16,7 @@ addons:
       - cmake
 
 script:
+  # Integrated with Jira
   # Prepare the build system
   - mkdir build
   - cd build
